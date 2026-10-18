@@ -1,0 +1,41 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+skinparam SequenceMessageAlign left
+hide footbox
+
+actor "Profissional\nda APS" as P
+participant ":TelaChecklist" as TC <<boundary>>
+participant ":TelaRelatorio" as TR <<boundary>>
+participant ":Controlador\nVerificacao" as CV <<control>>
+participant ":Catalogo\nDeRegras" as CR <<entity>>
+participant ":Painel\nFundamentacao" as PF <<boundary>>
+
+alt a partir do checklist (ponto de extensão de UC-01)
+  P -> TC : abrirFundamentacao(idExigencia)
+  activate TC
+  TC -> CV : obterFundamentacao(idExigencia)
+  activate CV
+  CV -> CR : fundamentar(idExigencia)
+  CR --> CV : texto
+  CV --> TC : texto
+  deactivate CV
+  TC -> PF : exibir(texto)
+  deactivate TC
+else a partir do relatório (ponto de extensão de UC-02)
+  P -> TR : abrirFundamentacao(idExigencia)
+  activate TR
+  TR -> CV : obterFundamentacao(idExigencia)
+  activate CV
+  CV -> CR : fundamentar(idExigencia)
+  CR --> CV : texto
+  CV --> TR : texto
+  deactivate CV
+  TR -> PF : exibir(texto)
+  deactivate TR
+end
+activate PF
+PF --> P : regra, trecho, edição e página do protocolo [RF010]
+P -> PF : fechar()
+deactivate PF
+@enduml

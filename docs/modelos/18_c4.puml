@@ -1,0 +1,41 @@
+@startuml
+!include <C4/C4_Component>
+skinparam dpi 190
+skinparam defaultFontName "DejaVu Sans"
+skinparam defaultFontSize 11
+LAYOUT_TOP_DOWN()
+
+Person(prof, "Profissional da APS", "Prepara encaminhamentos\neletivos (usuário principal)")
+Person(mant, "Mantenedor do catálogo", "Atualiza as regras a partir\ndo protocolo oficial")
+System_Ext(reg, "Sistema de regulação oficial", "SISREG, e-SUS Regulação ou local.\nSem integração no MVP (D03)")
+System_Ext(prot, "Protocolo de Acesso à Regulação", "SES-SE/SMS Aracaju, 4ª ed. (2025).\nDocumento público")
+
+Container_Boundary(vida, "VIDA — aplicação web no navegador (sem backend; ADR-02)") {
+  Component(ui, "Interface", "Telas T1–T4", "TelaSelecao, TelaChecklist,\nTelaRelatorio, PainelFundamentacao")
+  Component(ctrl, "Controlador de verificação", "ControladorVerificacao", "Orquestra UC-01 a UC-04")
+  Component(motor, "Motor de regras", "MotorDeRegras", "Avalia grupos de exigências\ne gera Achados (ADR-03)")
+  Component(exp, "Exportação", "ServicoExportacao", "Gera o relatório em texto")
+  Component(cat, "Catálogo de regras", "CatalogoDeRegras (JSON)", "Regras do protocolo, CIDs genéricos\ne fundamentação (ADR-01)")
+  Component(carr, "Carregador do catálogo", "CarregadorCatalogo", "Valida o esquema\nantes do uso (RNF006)")
+}
+
+Rel_D(prof, ui, "Usa", "navegador")
+Rel_D(ui, ctrl, "Aciona")
+Rel_D(ctrl, motor, "Delega avaliação")
+Rel_D(ctrl, exp, "Delega exportação")
+Rel_D(motor, cat, "Consulta")
+Rel(ctrl, cat, "Consulta")
+Rel_L(carr, cat, "Carrega e valida")
+Rel_U(mant, carr, "Edita o arquivo e valida")
+Rel_L(prof, reg, "Registra manualmente\napós consultar o VIDA")
+Rel_L(mant, prot, "Transcreve regras de")
+Lay_R(ui, ctrl)
+Lay_D(ui, motor)
+Lay_R(motor, exp)
+Lay_D(motor, cat)
+Lay_R(cat, carr)
+Lay_U(prof, ui)
+Lay_L(reg, prof)
+Lay_D(carr, mant)
+Lay_R(mant, prot)
+@enduml

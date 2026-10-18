@@ -1,0 +1,27 @@
+@startuml
+!include style.puml
+left to right direction
+skinparam nodesep 24
+skinparam ranksep 60
+actor "Profissional\nda APS" as P
+actor "Mantenedor\ndo catálogo" as M
+
+rectangle "VIDA — Verificador Inteligente de Dados Assistenciais" {
+  usecase "UC-02\nVerificar completude\ndo encaminhamento" as UC2
+  usecase "UC-01\nConsultar checklist\naplicável" as UC1
+  usecase "UC-03\nConsultar fundamentação\nde uma exigência" as UC3
+  usecase "UC-04\nExportar relatório\nde completude" as UC4
+  usecase "UC-05\nAtualizar catálogo\nde regras" as UC5
+}
+
+P -- UC2
+P -- UC1
+P -- UC3
+P -- UC4
+UC5 -- M
+
+UC2 ..> UC1 : <<include>>
+UC3 ..> UC2 : <<extend>>
+UC3 ..> UC1 : <<extend>>
+UC4 ..> UC2 : <<extend>>
+@enduml

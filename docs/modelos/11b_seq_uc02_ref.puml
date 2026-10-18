@@ -1,0 +1,54 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+skinparam SequenceMessageAlign left
+hide footbox
+title sd AvaliarEGerarRelatorio(enc : Encaminhamento)
+
+participant ":Controlador\nVerificacao" as CV <<control>>
+participant ":Encaminhamento" as EN <<entity>>
+participant ":MotorDeRegras" as MR <<control>>
+participant ":Catalogo\nDeRegras" as CR <<entity>>
+participant ":Relatorio\nDeCompletude" as RC <<entity>>
+
+activate CV
+CV -> CR : regrasGerais()
+CR --> CV : regras gerais
+CV -> CR : buscarRegras(especialidade, cid)
+CR --> CV : regras específicas
+CV -> MR : avaliar(enc, regras)
+activate MR
+MR -> CR : ehGenerico(cid)
+CR --> MR : resultado
+opt CID genérico [RN02, RF003]
+  note over MR : Achado CID_GENERICO\n(bloqueante)
+end
+loop para cada GrupoDeExigencias das regras [RN06]
+  MR -> MR : avaliarGrupo(g, enc)
+  activate MR
+  loop para cada exigência do grupo
+    MR -> EN : atendeu(idExigencia)
+    EN --> MR : booleano
+  end
+  alt modo = TODOS
+    note over MR : Achado por exigência\nnão atendida
+  else modo = AO_MENOS_UM
+    note over MR : um Achado se nenhuma\nexigência foi atendida
+  end
+  deactivate MR
+end
+MR --> CV : achados
+deactivate MR
+create RC
+CV -> RC : <<create>>(achados)
+CV -> RC : calcularSituacao()
+activate RC
+alt há Achado bloqueante
+  note right of RC : situacao =\nCOM_PENDENCIAS
+else sem Achado bloqueante
+  note right of RC : situacao =\nSEM_PENDENCIAS
+end
+RC --> CV
+deactivate RC
+deactivate CV
+@enduml

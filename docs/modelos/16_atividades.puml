@@ -1,0 +1,29 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+skinparam ActivityFontSize 11
+title Atividade: MotorDeRegras.avaliar(enc, regras) : Achado [*]
+start
+:Receber o Encaminhamento e as regras aplicáveis\n(gerais + específicas do CID);
+if (CID é genérico? [RN02]) then (sim)
+  :Registrar Achado CID_GENERICO\n(bloqueante);
+else (não)
+endif
+if (existe regra específica para o CID?) then (não)
+  :Registrar Achado CID_SEM_REGRA\n(aviso, não bloqueante);
+else (sim)
+endif
+while (há GrupoDeExigencias não avaliado?) is (sim)
+  :Selecionar o próximo grupo G;
+  if (G.modo = TODOS?) then (sim)
+    :Para cada exigência E de G não atendida:\nOBRIGATORIA → Achado EXIGENCIA_NAO_ATENDIDA (bloqueante)\nSE_DISPONIVEL → Achado RECOMENDACAO_NAO_ATENDIDA;
+  else (AO_MENOS_UM)
+    if (alguma exigência de G foi atendida?) then (não)
+      :Registrar um único Achado para G:\nOBRIGATORIA → EXIGENCIA_NAO_ATENDIDA (bloqueante)\nSE_DISPONIVEL → RECOMENDACAO_NAO_ATENDIDA;
+    else (sim)
+    endif
+  endif
+endwhile (não)
+:Retornar a lista de Achados;
+stop
+@enduml

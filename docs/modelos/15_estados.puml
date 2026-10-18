@@ -1,0 +1,41 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+skinparam nodesep 25
+skinparam ranksep 38
+hide empty description
+
+[*] --> EmPreparacao : iniciar(especialidade)
+
+state EmPreparacao {
+  [*] --> AguardandoCID
+  state avaliacaoCID <<choice>>
+  state CIDInformado {
+    state CIDValido
+    state CIDGenerico
+    state CIDSemRegra
+  }
+  AguardandoCID --> AguardandoCID : informarCID(c)\n[formato inválido]
+  AguardandoCID --> avaliacaoCID : informarCID(c)\n[formato válido]
+  avaliacaoCID --> CIDValido : [não genérico\n∧ há regra]
+  avaliacaoCID --> CIDGenerico : [genérico]
+  avaliacaoCID --> CIDSemRegra : [não genérico\n∧ sem regra]
+}
+CIDInformado : marcarItem(i, a) / registrarAtendimento
+CIDInformado --> avaliacaoCID : informarCID(c)\n[formato válido]
+
+state escolha <<choice>>
+CIDInformado -down-> escolha : solicitarVerificacao()\n/ avaliar(enc, regras)
+
+state Verificado {
+  state SemPendencias
+  state ComPendencias
+}
+Verificado : solicitarExportacao() / gerarTexto(rel)
+Verificado : abrirFundamentacao(id) / exibir
+escolha -down-> ComPendencias : [há Achado\nbloqueante]
+escolha -down-> SemPendencias : [sem Achado\nbloqueante]
+
+Verificado -up-> EmPreparacao[H*] : marcarItem(i, a)\n/ invalidar relatório
+Verificado -up-> avaliacaoCID : informarCID(c)\n[formato válido] / invalidar relatório
+@enduml

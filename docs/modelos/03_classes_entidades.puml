@@ -1,0 +1,78 @@
+@startuml
+!include style.puml
+hide empty members
+skinparam ClassFontSize 11
+skinparam ClassAttributeFontSize 11
+skinparam nodesep 26
+skinparam ranksep 36
+
+class Protocolo <<entity>> {
+  nome : String
+  edicao : String
+  ano : Integer
+  orgaoEmissor : String
+}
+class CatalogoDeRegras <<entity>> {
+  versao : String
+  cidsGenericos : String [*]
+  buscarRegras(esp : String, cid : String) : RegraDoProtocolo [*]
+  regrasGerais() : RegraDoProtocolo [*]
+  ehGenerico(cid : String) : Boolean
+  fundamentar(idExigencia : String) : String
+}
+class Especialidade <<entity>> {
+  nome : String
+}
+class RegraDoProtocolo <<entity>> {
+  codigo : String
+  indicacao : String
+  abrangencia : Abrangencia
+  cidsAbrangidos : String [*]
+  paginaNoProtocolo : Integer
+}
+class GrupoDeExigencias <<entity>> {
+  modo : ModoDeSatisfacao
+}
+class Exigencia <<entity>> {
+  idExigencia : String
+  descricao : String
+  tipo : TipoDeExigencia
+  carater : CaraterDaExigencia
+  trechoDoProtocolo : String
+}
+class Encaminhamento <<entity>> {
+  cid : String
+  situacaoDoCID : SituacaoDoCID
+  definirItens(exigencias : Exigencia [*])
+  registrarAtendimento(idItem : String, atendido : Boolean)
+  atendeu(idExigencia : String) : Boolean
+}
+class ItemDoChecklist <<entity>> {
+  idItem : String
+  atendido : Boolean
+}
+class RelatorioDeCompletude <<entity>> {
+  situacao : SituacaoDoRelatorio
+  geradoEm : DateTime
+  calcularSituacao()
+  listarAchados() : Achado [*]
+}
+class Achado <<entity>> {
+  tipo : TipoDeAchado
+  bloqueante : Boolean
+  mensagem : String
+}
+
+Protocolo "1" -down- "1" CatalogoDeRegras : fundamenta >
+CatalogoDeRegras "1" *-down- "1..*" RegraDoProtocolo : contém >
+RegraDoProtocolo "0..*" -right- "0..1" Especialidade : aplica-se a >
+RegraDoProtocolo "1" *-down- "0..*" GrupoDeExigencias : agrupa >
+GrupoDeExigencias "1" *-down- "1..*" Exigencia : contém >
+
+Especialidade "1" -down- "0..*" Encaminhamento : destina-se a <
+Encaminhamento "1" -right- "0..*" RelatorioDeCompletude : origina >
+Encaminhamento "1" *-down- "0..*" ItemDoChecklist : compõe-se de >
+RelatorioDeCompletude "1" *-down- "0..*" Achado : contém >
+ItemDoChecklist "0..*" -left- "1" Exigencia : representa >
+Achado "0..*" -left- "0..*" ItemDoChecklist : refere-se a >
+@enduml

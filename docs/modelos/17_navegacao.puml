@@ -1,0 +1,22 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+hide empty description
+state "T1\nSeleção de especialidade e CID" as T1
+state "T2\nChecklist e confirmação de itens" as T2
+state "T3\nRelatório de completude" as T3
+state "T4\nFundamentação (painel)" as T4
+
+[*] --> T1
+T1 --> T1 : informarCID(c)\n[formato inválido ou CID genérico] / aviso
+T1 --> T2 : solicitarChecklist()\n[CID com formato válido]
+T2 --> T1 : voltar
+T2 --> T3 : solicitarVerificacao()
+T2 --> T4 : abrirFundamentacao(id)
+T3 --> T2 : corrigir agora
+T3 --> T4 : abrirFundamentacao(id)
+T3 --> T3 : solicitarExportacao() / baixar texto
+T3 --> T1 : novo encaminhamento
+T4 --> T2 : fechar() [origem = T2]
+T4 --> T3 : fechar() [origem = T3]
+@enduml

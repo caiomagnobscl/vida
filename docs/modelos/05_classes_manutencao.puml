@@ -1,0 +1,20 @@
+@startuml
+!include style.puml
+hide empty members
+skinparam ClassFontSize 11
+skinparam ClassAttributeFontSize 10
+skinparam nodesep 40
+skinparam ranksep 46
+
+class InterfaceManutencao <<boundary>> {
+  validarCatalogo(caminho)
+}
+class CarregadorCatalogo <<control>> {
+  carregar(caminho) : CatalogoDeRegras
+  validarEsquema(conteudo) : String [*]
+}
+class CatalogoDeRegras <<entity>>
+
+InterfaceManutencao "1" -right- "1" CarregadorCatalogo : aciona >
+CarregadorCatalogo ..> CatalogoDeRegras : <<instantiate>>
+@enduml

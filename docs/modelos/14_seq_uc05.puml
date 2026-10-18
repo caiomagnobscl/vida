@@ -1,0 +1,28 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+skinparam SequenceMessageAlign left
+hide footbox
+
+actor "Mantenedor\ndo catálogo" as M
+participant ":Interface\nManutencao" as IM <<boundary>>
+participant ":Carregador\nCatalogo" as CC <<control>>
+participant ":Catalogo\nDeRegras" as CR <<entity>>
+
+M -> IM : validarCatalogo(caminho)
+activate IM
+IM -> CC : carregar(caminho)
+activate CC
+CC -> CC : validarEsquema(conteudo)
+alt esquema inválido [RNF006]
+  CC --> IM : lista de erros (campo, regra, motivo)
+  IM --> M : catálogo rejeitado, com relatório de erros
+else esquema válido
+  create CR
+  CC -> CR : <<create>>
+  CC --> IM : catálogo carregado (versão)
+  IM --> M : catálogo válido e pronto para uso [RNF003]
+end
+deactivate CC
+deactivate IM
+@enduml

@@ -1,0 +1,65 @@
+@startuml
+!include style.puml
+hide empty members
+skinparam ClassFontSize 12
+skinparam nodesep 30
+skinparam ranksep 38
+
+class Protocolo {
+  nome
+  edicao
+  ano
+  orgaoEmissor
+}
+class Indicacao {
+  descricao
+  paginaNoProtocolo
+}
+class Especialidade {
+  nome
+}
+class PreRequisito {
+  descricao
+  tipo
+  carater
+}
+class Encaminhamento {
+  dataDaSolicitacao
+}
+class CID {
+  codigo
+}
+class ProfissionalSolicitante {
+  categoria
+}
+class Paciente <<conceito externo>>
+class Regulador
+class Devolucao {
+  motivo
+  prazoDeReenvioEmDias
+}
+
+Protocolo "1" *-right- "0..*" Indicacao : contém >
+Indicacao "0..*" -right- "1" Especialidade : refere-se a >
+Protocolo "1" -down- "1..*" PreRequisito : exige (gerais) >
+Indicacao "1" *-down- "0..*" PreRequisito : exige >
+Indicacao "0..*" -down- "1..*" CID : aplica-se a >
+
+Encaminhamento "0..*" -right- "1" CID : justificado por >
+Encaminhamento "0..*" -up-  "1" Especialidade : destina-se a >
+PreRequisito "0..*" -right- "0..*" Encaminhamento : /deveAtender <
+
+ProfissionalSolicitante "1" -up- "0..*" Encaminhamento : prepara >
+Paciente "1" -up- "0..*" Encaminhamento : refere-se a <
+Regulador "1" -up- "0..*" Encaminhamento : avalia >
+Encaminhamento "1" -down- "0..*" Devolucao : pode receber >
+
+ProfissionalSolicitante -[hidden]right- Paciente
+Paciente -[hidden]right- Regulador
+
+note bottom of Paciente
+  Sem atributos identificáveis:
+  o VIDA não armazena nem processa
+  dados de pacientes (RST01, RNF004).
+end note
+@enduml

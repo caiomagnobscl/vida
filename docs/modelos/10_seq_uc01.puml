@@ -1,0 +1,70 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+skinparam SequenceMessageAlign left
+hide footbox
+
+actor "Profissional\nda APS" as P
+participant ":TelaSelecao" as TS <<boundary>>
+participant ":Controlador\nVerificacao" as CV <<control>>
+participant ":Catalogo\nDeRegras" as CR <<entity>>
+participant ":Encaminhamento" as EN <<entity>>
+
+P -> TS : selecionarEspecialidade(nome)
+activate TS
+TS -> CV : iniciar(especialidade)
+activate CV
+create EN
+CV -> EN : <<create>>
+CV --> TS
+deactivate CV
+deactivate TS
+
+P -> TS : informarCID(codigo)
+activate TS
+TS -> CV : informarCID(codigo)
+activate CV
+CV -> CV : validarFormatoCID(codigo)
+alt formato inválido [RF008]
+  CV --> TS : FORMATO_INVALIDO
+else formato válido
+  CV -> CR : ehGenerico(codigo)
+  activate CR
+  CR --> CV : resultado
+  deactivate CR
+  alt CID genérico [RN02, RF003]
+    CV --> TS : GENERICO
+  else CID não genérico
+    CV -> CR : buscarRegras(especialidade, codigo)
+    activate CR
+    CR --> CV : regras
+    deactivate CR
+    alt nenhuma regra específica encontrada
+      CV --> TS : SEM_REGRA
+    else há regra(s) específica(s)
+      CV --> TS : VALIDO
+    end
+  end
+end
+deactivate CV
+TS --> P : mensagem conforme a situação do CID
+deactivate TS
+
+P -> TS : solicitarChecklist()
+activate TS
+TS -> CV : obterChecklist()
+activate CV
+CV -> CR : regrasGerais()
+activate CR
+CR --> CV : regras gerais
+deactivate CR
+CV -> CR : buscarRegras(especialidade, codigo)
+activate CR
+CR --> CV : regras específicas
+deactivate CR
+CV -> EN : definirItens(exigencias)
+CV --> TS : itens do checklist
+deactivate CV
+TS --> P : checklist aplicável [RF002]
+deactivate TS
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+skinparam SequenceMessageAlign left
+hide footbox
+
+actor "Profissional\nda APS" as P
+participant ":TelaRelatorio" as TR <<boundary>>
+participant ":Controlador\nVerificacao" as CV <<control>>
+participant ":Servico\nExportacao" as SE <<control>>
+participant ":Relatorio\nDeCompletude" as RC <<entity>>
+
+P -> TR : solicitarExportacao()
+activate TR
+TR -> CV : exportar()
+activate CV
+CV -> SE : gerarTexto(rel)
+activate SE
+SE -> RC : listarAchados()
+RC --> SE : achados
+alt relatório COM_PENDENCIAS
+  note over SE : o texto lista pendências e recomendações,\ncada uma com sua fundamentação
+else relatório SEM_PENDENCIAS
+  note over SE : o texto registra "nenhuma pendência identificada"\ne o aviso de alcance (RN07)
+end
+SE --> CV : texto
+deactivate SE
+CV --> TR : texto
+deactivate CV
+TR --> P : arquivo de texto para download [RF007]
+deactivate TR
+@enduml

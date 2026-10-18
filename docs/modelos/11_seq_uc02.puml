@@ -1,0 +1,36 @@
+@startuml
+!include style.puml
+skinparam defaultFontSize 11
+skinparam SequenceMessageAlign left
+hide footbox
+
+actor "Profissional\nda APS" as P
+participant ":TelaChecklist" as TC <<boundary>>
+participant ":Controlador\nVerificacao" as CV <<control>>
+participant ":Encaminhamento" as EN <<entity>>
+participant ":TelaRelatorio" as TR <<boundary>>
+
+loop para cada item que o profissional marca [RF009]
+  P -> TC : marcarItem(idItem, atendido)
+  activate TC
+  TC -> CV : registrarAtendimento(idItem, atendido)
+  activate CV
+  CV -> EN : registrarAtendimento(idItem, atendido)
+  CV --> TC
+  deactivate CV
+  deactivate TC
+end
+
+P -> TC : solicitarVerificacao()
+activate TC
+TC -> CV : verificar()
+activate CV
+ref over CV, EN : sd AvaliarEGerarRelatorio(enc)
+CV --> TC : rel
+deactivate CV
+TC -> TR : exibir(rel)
+activate TR
+TR --> P : relatório de completude [RF005]
+deactivate TR
+deactivate TC
+@enduml

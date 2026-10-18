@@ -1,0 +1,66 @@
+@startuml
+!include style.puml
+hide empty members
+skinparam ClassFontSize 11
+skinparam ClassAttributeFontSize 10
+skinparam nodesep 20
+skinparam ranksep 46
+
+class TelaSelecao <<boundary>> {
+  selecionarEspecialidade(nome)
+  informarCID(codigo)
+  solicitarChecklist()
+}
+class TelaChecklist <<boundary>> {
+  marcarItem(idItem, atendido)
+  solicitarVerificacao()
+  abrirFundamentacao(idExigencia)
+}
+class TelaRelatorio <<boundary>> {
+  exibir(rel)
+  solicitarExportacao()
+  abrirFundamentacao(idExigencia)
+}
+class PainelFundamentacao <<boundary>> {
+  exibir(texto)
+  fechar()
+}
+
+class ControladorVerificacao <<control>> {
+  iniciar(especialidade)
+  validarFormatoCID(codigo) : Boolean
+  informarCID(codigo) : SituacaoDoCID
+  obterChecklist() : ItemDoChecklist [*]
+  registrarAtendimento(idItem, atendido)
+  verificar() : RelatorioDeCompletude
+  obterFundamentacao(idExigencia) : String
+  exportar() : String
+}
+class MotorDeRegras <<control>> {
+  avaliar(enc, regras) : Achado [*]
+  avaliarGrupo(g, enc) : Achado [*]
+}
+class ServicoExportacao <<control>> {
+  gerarTexto(rel) : String
+}
+
+class Encaminhamento <<entity>>
+class CatalogoDeRegras <<entity>>
+class RelatorioDeCompletude <<entity>>
+
+TelaSelecao "1" -down- "1" ControladorVerificacao
+TelaChecklist "1" -down- "1" ControladorVerificacao
+TelaRelatorio "1" -down- "1" ControladorVerificacao
+TelaChecklist "1" -right- "0..1" TelaRelatorio : abre >
+TelaRelatorio "0..*" -right- "0..1" PainelFundamentacao : abre >
+TelaChecklist "0..*" -down- "0..1" PainelFundamentacao : abre >
+
+ControladorVerificacao "1" -down- "1" MotorDeRegras : delega avaliação a >
+ControladorVerificacao "1" -down- "1" ServicoExportacao : delega exportação a >
+ControladorVerificacao "1" -down- "0..1" Encaminhamento : conduz >
+MotorDeRegras "1" -down- "1" CatalogoDeRegras : consulta >
+ControladorVerificacao ..> CatalogoDeRegras : <<use>>
+MotorDeRegras ..> Encaminhamento : <<use>>
+ServicoExportacao ..> RelatorioDeCompletude : <<use>>
+ControladorVerificacao ..> RelatorioDeCompletude : <<instantiate>>
+@enduml
