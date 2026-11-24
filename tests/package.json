@@ -1,0 +1,17 @@
+{
+  "name": "vida-testes",
+  "private": true,
+  "type": "module",
+  "description": "Testes automatizados do VIDA (node:test + jsdom). Nesta pasta: npm install e depois npm test.",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "test": "node --disable-warning=ExperimentalWarning --test",
+    "cobertura": "node --disable-warning=ExperimentalWarning --experimental-test-coverage --test-coverage-include=../src/**/*.js --test-coverage-include=../servidor/**/*.js --test",
+    "e2e": "node --disable-warning=ExperimentalWarning --test e2e/navegador.e2e.js"
+  },
+  "devDependencies": {
+    "jsdom": "^31.0.1"
+  }
+}
