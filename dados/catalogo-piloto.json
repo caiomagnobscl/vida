@@ -1,0 +1,232 @@
+{
+  "versao": "1.1.0",
+  "transcricao": "Trechos transcritos do protocolo oficial (reprodução parcial permitida com citação da fonte); erros ortográficos evidentes foram normalizados.",
+  "protocolo": {
+    "nome": "Protocolo Estadual de Acesso à Regulação de Procedimentos Ambulatoriais de Média e Alta Complexidade",
+    "edicao": "4ª edição",
+    "ano": 2025,
+    "orgaoEmissor": "SES-SE e SMS Aracaju"
+  },
+  "especialidades": ["Cardiologia", "Gastroenterologia"],
+  "cidsGenericos": ["Z00", "R50", "R68"],
+  "fundamentoCidGenerico": {
+    "trechoDoProtocolo": "Evitar a utilização de CID genérico (ex: Z00, R50, R68 etc. ) pois não indicam critério de prioridade. Os sistemas de regulação estarão bloqueados para inclusão de solicitações com estas classificações.",
+    "paginaNoProtocolo": 17,
+    "listaCompleta": false
+  },
+  "regras": [
+    {
+      "codigo": "GER-01",
+      "indicacao": "Exigências gerais de toda solicitação (RN01)",
+      "abrangencia": "GERAL",
+      "paginaNoProtocolo": 17,
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            {
+              "idExigencia": "G1",
+              "descricao": "Descrição do quadro clínico (anamnese e exame físico)",
+              "tipo": "CAMPO_CLINICO",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Descrição do quadro clínico (anamnese e exame físico)"
+            },
+            {
+              "idExigencia": "G2",
+              "descricao": "Hipótese diagnóstica",
+              "tipo": "CAMPO_CLINICO",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "hipótese diagnóstica"
+            },
+            {
+              "idExigencia": "G3",
+              "descricao": "CID/CIAP compatível com o quadro clínico",
+              "tipo": "CAMPO_CLINICO",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "além do CID ou CIAP compatível"
+            },
+            {
+              "idExigencia": "G4",
+              "descricao": "Requisição legível com data, carimbo e assinatura",
+              "tipo": "DOCUMENTO",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Requisições digitadas ou com letra legível, contendo data, carimbo e assinatura do profissional solicitante e validade de até 03 meses da data de solicitação"
+            }
+          ]
+        },
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            {
+              "idExigencia": "G5",
+              "descricao": "Resultados de exames prévios relacionados (se houver)",
+              "tipo": "EXAME",
+              "carater": "SE_DISPONIVEL",
+              "trechoDoProtocolo": "resultados de exames prévios relacionados ao quadro clínico descrito"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "CAR-01",
+      "indicacao": "Dor torácica e precordialgia",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Cardiologia",
+      "cidsAbrangidos": ["R07.1", "R07.2", "I20", "I21", "I22", "I23"],
+      "paginaNoProtocolo": 32,
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            {
+              "idExigencia": "CAR-01.1",
+              "descricao": "ECG (eletrocardiograma) anexado",
+              "tipo": "EXAME",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Solicitação médica com justificativa + ECG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "CAR-02",
+      "indicacao": "Hipertensão de difícil controle (estágio III ou IV)",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Cardiologia",
+      "cidsAbrangidos": ["I10", "I11", "I12", "I13", "I15"],
+      "paginaNoProtocolo": 33,
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            {
+              "idExigencia": "CAR-02.1",
+              "descricao": "ECG (eletrocardiograma) anexado",
+              "tipo": "EXAME",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Solicitação médica com justificativa + ECG"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "CAR-03",
+      "indicacao": "Malformações congênitas",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Cardiologia",
+      "cidsAbrangidos": ["Q20-Q26"],
+      "paginaNoProtocolo": 33,
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            {
+              "idExigencia": "CAR-03.1",
+              "descricao": "ECG (eletrocardiograma) anexado",
+              "tipo": "EXAME",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Solicitação médica com justificativa + ECG + ECO"
+            },
+            {
+              "idExigencia": "CAR-03.2",
+              "descricao": "ECO (ecocardiograma) anexado",
+              "tipo": "EXAME",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Solicitação médica com justificativa + ECG + ECO"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "GAS-01",
+      "indicacao": "Neoplasias malignas",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Gastroenterologia",
+      "cidsAbrangidos": ["C26", "C26.0", "C26.1", "C26.8", "C26.9"],
+      "paginaNoProtocolo": 58,
+      "observacao": "O protocolo lista os exames sem dizer se todos são exigidos ou se basta um. Interpretação provisória: ao menos um [HIPÓTESE A VALIDAR com a regulação — Q05].",
+      "status": "PROVISORIA",
+      "grupos": [
+        {
+          "modo": "AO_MENOS_UM",
+          "exigencias": [
+            {
+              "idExigencia": "GAS-01.1",
+              "descricao": "Endoscopia",
+              "tipo": "EXAME",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Exames complementares: Endoscopia, US abdômen total, colonoscopia, enema opaco."
+            },
+            {
+              "idExigencia": "GAS-01.2",
+              "descricao": "US de abdômen total",
+              "tipo": "EXAME",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Exames complementares: Endoscopia, US abdômen total, colonoscopia, enema opaco."
+            },
+            {
+              "idExigencia": "GAS-01.3",
+              "descricao": "Colonoscopia",
+              "tipo": "EXAME",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Exames complementares: Endoscopia, US abdômen total, colonoscopia, enema opaco."
+            },
+            {
+              "idExigencia": "GAS-01.4",
+              "descricao": "Enema opaco",
+              "tipo": "EXAME",
+              "carater": "OBRIGATORIA",
+              "trechoDoProtocolo": "Exames complementares: Endoscopia, US abdômen total, colonoscopia, enema opaco."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "GAS-02",
+      "indicacao": "Úlcera péptica",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Gastroenterologia",
+      "cidsAbrangidos": ["K27"],
+      "excecoes": ["K27.8"],
+      "paginaNoProtocolo": 58,
+      "observacao": "O protocolo condiciona os exames a “se disponível”: tratados como recomendação, sem bloquear [HIPÓTESE A VALIDAR — Q05].",
+      "status": "PROVISORIA",
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            {
+              "idExigencia": "GAS-02.1",
+              "descricao": "Endoscopia digestiva alta (EDA) com biópsia",
+              "tipo": "EXAME",
+              "carater": "SE_DISPONIVEL",
+              "trechoDoProtocolo": "Endoscopia digestiva alta (EDA) com biópsia, pesquisa de H.pylori, se disponível."
+            },
+            {
+              "idExigencia": "GAS-02.2",
+              "descricao": "Pesquisa de H. pylori",
+              "tipo": "EXAME",
+              "carater": "SE_DISPONIVEL",
+              "trechoDoProtocolo": "Endoscopia digestiva alta (EDA) com biópsia, pesquisa de H.pylori, se disponível."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "GAS-03",
+      "indicacao": "Queixas/sintomas gastrointestinais",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Gastroenterologia",
+      "cidsAbrangidos": ["K29", "K59"],
+      "paginaNoProtocolo": 59,
+      "observacao": "O protocolo não lista pré-requisito específico para estas indicações; aplicam-se apenas as exigências gerais.",
+      "grupos": []
+    }
+  ]
+}
