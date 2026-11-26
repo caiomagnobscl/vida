@@ -1,0 +1,170 @@
+{
+  "versao": "1.1.0",
+  "especialidades": [
+    "Cardiologia",
+    "Gastroenterologia"
+  ],
+  "cidsGenericos": [
+    "Z00",
+    "R50",
+    "R68"
+  ],
+  "paginaDoFundamentoGenerico": 17,
+  "listaDeCidsGenericosCompleta": false,
+  "regras": [
+    {
+      "codigo": "GER-01",
+      "abrangencia": "GERAL",
+      "especialidade": null,
+      "paginaNoProtocolo": 17,
+      "status": null,
+      "cidsAbrangidos": [],
+      "excecoes": [],
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            "G1 (OBRIGATORIA)",
+            "G2 (OBRIGATORIA)",
+            "G3 (OBRIGATORIA)",
+            "G4 (OBRIGATORIA)"
+          ]
+        },
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            "G5 (SE_DISPONIVEL)"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "CAR-01",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Cardiologia",
+      "paginaNoProtocolo": 32,
+      "status": null,
+      "cidsAbrangidos": [
+        "R07.1",
+        "R07.2",
+        "I20",
+        "I21",
+        "I22",
+        "I23"
+      ],
+      "excecoes": [],
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            "CAR-01.1 (OBRIGATORIA)"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "CAR-02",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Cardiologia",
+      "paginaNoProtocolo": 33,
+      "status": null,
+      "cidsAbrangidos": [
+        "I10",
+        "I11",
+        "I12",
+        "I13",
+        "I15"
+      ],
+      "excecoes": [],
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            "CAR-02.1 (OBRIGATORIA)"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "CAR-03",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Cardiologia",
+      "paginaNoProtocolo": 33,
+      "status": null,
+      "cidsAbrangidos": [
+        "Q20-Q26"
+      ],
+      "excecoes": [],
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            "CAR-03.1 (OBRIGATORIA)",
+            "CAR-03.2 (OBRIGATORIA)"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "GAS-01",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Gastroenterologia",
+      "paginaNoProtocolo": 58,
+      "status": "PROVISORIA",
+      "cidsAbrangidos": [
+        "C26",
+        "C26.0",
+        "C26.1",
+        "C26.8",
+        "C26.9"
+      ],
+      "excecoes": [],
+      "grupos": [
+        {
+          "modo": "AO_MENOS_UM",
+          "exigencias": [
+            "GAS-01.1 (OBRIGATORIA)",
+            "GAS-01.2 (OBRIGATORIA)",
+            "GAS-01.3 (OBRIGATORIA)",
+            "GAS-01.4 (OBRIGATORIA)"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "GAS-02",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Gastroenterologia",
+      "paginaNoProtocolo": 58,
+      "status": "PROVISORIA",
+      "cidsAbrangidos": [
+        "K27"
+      ],
+      "excecoes": [
+        "K27.8"
+      ],
+      "grupos": [
+        {
+          "modo": "TODOS",
+          "exigencias": [
+            "GAS-02.1 (SE_DISPONIVEL)",
+            "GAS-02.2 (SE_DISPONIVEL)"
+          ]
+        }
+      ]
+    },
+    {
+      "codigo": "GAS-03",
+      "abrangencia": "ESPECIALIDADE",
+      "especialidade": "Gastroenterologia",
+      "paginaNoProtocolo": 59,
+      "status": null,
+      "cidsAbrangidos": [
+        "K29",
+        "K59"
+      ],
+      "excecoes": [],
+      "grupos": []
+    }
+  ]
+}
